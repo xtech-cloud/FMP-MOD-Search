@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using LibMVCS = XTC.FMP.LIB.MVCS;
 using XTC.FMP.MOD.Search.LIB.MVCS;
+using System;
 
 namespace XTC.FMP.MOD.Search.LIB.Unity
 {

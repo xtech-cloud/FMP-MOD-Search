@@ -10,7 +10,7 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
     /// <remarks>
     /// 不参与模块编译，仅用于在编辑器中开发调试
     /// </remarks>
-    public class DebugEntry : MyEntry 
+    public class DebugEntry : MyEntry
     {
         /// <summary>
         /// 调试预加载
@@ -62,13 +62,13 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             data["delay"] = _delay;
             modelDummy_.Publish(MySubjectBase.Open, data);
         }
-        
+
         /// <summary>
         /// 调试显示
         /// </summary>
         /// <param name="_uid">实例的uid</param>
         /// <param name="_delay">延迟时间，单位秒</param>
-        public void __DebugShow(string _uid,  float _delay)
+        public void __DebugShow(string _uid, float _delay)
         {
             var data = new Dictionary<string, object>();
             data["uid"] = _uid;
@@ -81,7 +81,7 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         /// </summary>
         /// <param name="_uid">实例的uid</param>
         /// <param name="_delay">延迟时间，单位秒</param>
-        public void __DebugHide(string _uid,  float _delay)
+        public void __DebugHide(string _uid, float _delay)
         {
             var data = new Dictionary<string, object>();
             data["uid"] = _uid;
@@ -112,5 +112,25 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             data["uid"] = _uid;
             modelDummy_.Publish(MySubjectBase.Delete, data);
         }
+
+        /// <summary>
+        /// 调试嵌入
+        /// </summary>
+        /// <param name="_uid">实例的uid</param>
+        /// <param name="_style">实例的样式名</param>
+        /// <param name="_uiSlot">ui挂载的路径</param>
+        /// <param name="_worldSlot">world挂载的路径</param>
+        /// <param name="_contentS">需要检索的内容列表</param>
+        public void __DebugInlay(string _uid, string _style, GameObject _uiSlot, GameObject _worldSlot, Dictionary<string, string> _contentS)
+        {
+            var data = new Dictionary<string, object>();
+            data["uid"] = _uid;
+            data["style"] = _style;
+            data["uiSlot"] = _uiSlot;
+            data["worldSlot"] = _worldSlot;
+            data["contents"] = _contentS;
+            modelDummy_.Publish(MySubject.Inlay, data);
+        }
+
     }
 }

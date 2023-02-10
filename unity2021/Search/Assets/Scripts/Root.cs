@@ -1,5 +1,9 @@
 
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using XTC.FMP.MOD.Search.LIB.Unity;
 
 /// <summary>
 /// 根程序类
@@ -9,9 +13,26 @@ using UnityEngine;
 /// </remarks>
 public class Root : RootBase
 {
+    public GameObject __inlayUiSlot;
+    public GameObject __inlayWorldSlot;
+
+    private Dictionary<string, string> __contentS = new Dictionary<string, string>();
+
     private void Awake()
     {
         doAwake();
+
+        string assetsPath = settings_["path.assets"].AsString();
+        foreach (var file in Directory.GetFiles(assetsPath, "meta.json", SearchOption.AllDirectories))
+        {
+            var json = File.ReadAllText(file);
+            var meta = JsonConvert.DeserializeObject<ContentMetaSchema>(json);
+            if (string.IsNullOrEmpty(meta.foreign_bundle_uuid))
+                continue;
+            if (string.IsNullOrEmpty(meta.Uuid))
+                continue;
+            __contentS[meta.foreign_bundle_uuid + "/" + meta.Uuid] = meta.alias;
+        }
     }
 
     private void Start()
@@ -54,6 +75,11 @@ public class Root : RootBase
         if (GUI.Button(new Rect(0, 150, 60, 30), "Delete"))
         {
             entry_.__DebugDelete("test");
+        }
+
+        if (GUI.Button(new Rect(0, 180, 60, 30), "Inlay"))
+        {
+            entry_.__DebugInlay("test", "default", __inlayUiSlot, __inlayWorldSlot, __contentS);
         }
     }
 }
