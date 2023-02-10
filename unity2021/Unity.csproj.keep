@@ -81,6 +81,9 @@
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>{{UNITY_HOME}}\Editor\Data\Managed\UnityEngine\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
+    <Reference Include="NPinyin">
+      <HintPath>{{WORK_DIR}}\Search\Assets\3rd\NPinyin-3.0.0\NPinyin.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
