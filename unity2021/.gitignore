@@ -1,0 +1,19 @@
+
+/_dist_/
+/_build_/
+/Search/Assets/TextMesh Pro/
+/Search/Assets/TextMesh Pro.meta
+/Search/Assets/Plugins/
+/Search/Assets/Plugins.meta
+/Search/Assets/3rd/
+/Search/Assets/3rd.meta
+/Search/Library/
+/Search/obj/
+/Search/Logs/
+/Search/Temp/
+/Search/UserSettings/
+/Search/*.sln
+/Search/*.csproj
+/Search/.vsconfig
+/Search/.vs/
+/.UNITY_HOME.env
