@@ -31,8 +31,14 @@
   <Styles>
     <Style name="default" primaryColor="#49DDE4FF">
       <Background visible="true" color="#282828FF"/>
-      <Keyboard keyImage="key_default.png"/>
-      <Record color="#1F1F1FFF" capacity="30" iconVisible="true" iconImage="icon-default.png" width="450" height="96" />
+      <Input marginTop="24" width="500" height="36" iconSize="28" fontSize="22"/>
+      <Keyboard keyImage="key_default.png" width="580" height="140" keySize="32" fontSize="14"/>
+      <Result>
+        <Margin top="80" bottom="140" left="44" right="44"/>
+      </Result>
+      <Record color="#1F1F1FFF" capacity="30" iconVisible="true" iconImage="icon-default.png" iconSize="36" iconMarginLeft="12" width="226" height="48" fontSize="16">
+        <TextMargin top="1" bottom="0" left="58" right="10"/>
+      </Record>
       <ActivateSubjects>
         <Subject message="/XTC/Search/Clean">
           <Parameters>

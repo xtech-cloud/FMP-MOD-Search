@@ -64,11 +64,26 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 uiReference_.input = rootUI.transform.Find("InputField").GetComponent<InputField>();
                 uiReference_.input.GetComponent<Image>().color = uiReference_.primaryColor;
                 uiReference_.input.transform.Find("icon").GetComponent<Image>().color = uiReference_.primaryColor;
+                var rt = uiReference_.input.GetComponent<RectTransform>();
+                rt.anchoredPosition = new Vector2(0, -style_.input.marginTop);
+                rt.sizeDelta = new Vector2(style_.input.width, style_.input.height);
+                uiReference_.input.transform.Find("Placeholder").GetComponent<Text>().fontSize = style_.input.fontSize;
+                uiReference_.input.transform.Find("Text").GetComponent<Text>().fontSize = style_.input.fontSize;
+                uiReference_.input.transform.Find("icon").GetComponent<RectTransform>().sizeDelta = new Vector2(style_.input.iconSize, style_.input.iconSize);
             }
 
-            // 应用按钮样式
+            // 应用键盘样式
             {
+                var rtKeyboard = rootUI.transform.Find("keyboard").GetComponent<RectTransform>();
+                rtKeyboard.sizeDelta = new Vector2(style_.keyboard.width, style_.keyboard.height);
                 uiReference_.keyS.AddRange(rootUI.transform.Find("keyboard").GetComponentsInChildren<Button>());
+                foreach (var key in uiReference_.keyS)
+                {
+                    key.transform.Find("Text").GetComponent<Text>().fontSize = style_.keyboard.fontSize;
+                }
+                rootUI.transform.Find("keyboard/line1").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
+                rootUI.transform.Find("keyboard/line2").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
+                rootUI.transform.Find("keyboard/line3").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
                 if (!string.IsNullOrEmpty(style_.keyboard.keyImage))
                 {
                     loadTextureFromTheme(style_.keyboard.keyImage, (_texture) =>
@@ -86,11 +101,22 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
 
             // 应用结果样式
             {
+                var rtRecords = rootUI.transform.Find("svRecords").GetComponent<RectTransform>();
+                rtRecords.sizeDelta = new Vector2(-(style_.result.margin.left + style_.result.margin.right), -(style_.result.margin.top + style_.result.margin.bottom));
+
                 var layout = rootUI.transform.Find("svRecords/Viewport/Content").GetComponent<GridLayoutGroup>();
                 layout.cellSize = new Vector2(style_.record.width, style_.record.height);
                 uiReference_.recordTemplate = rootUI.transform.Find("svRecords/Viewport/Content/record").GetComponent<RectTransform>();
                 uiReference_.recordTemplate.gameObject.SetActive(false);
+                var rtIcon = uiReference_.recordTemplate.Find("icon").GetComponent<RectTransform>();
+                rtIcon.sizeDelta = new Vector2(style_.record.iconSize, style_.record.iconSize);
+                rtIcon.anchoredPosition = new Vector2(style_.record.iconMarginLeft, 0);
                 var color = convertColor(style_.record.color);
+                var rtText = uiReference_.recordTemplate.Find("Text").GetComponent<RectTransform>();
+                rtText.GetComponent<Text>().fontSize = style_.record.fontSize;
+                rtText.sizeDelta = new Vector2(-(style_.record.textMargin.left + style_.record.textMargin.right), -(style_.record.textMargin.top + style_.record.textMargin.bottom));
+                rtText.anchoredPosition = new Vector2(calculateAnchoredValue(style_.record.textMargin.right, style_.record.textMargin.left), calculateAnchoredValue(style_.record.textMargin.top, style_.record.textMargin.bottom));
+
                 uiReference_.recordTemplate.GetComponent<Image>().color = color;
                 loadTextureFromTheme(style_.record.iconImage, (_texture) =>
                 {
@@ -214,6 +240,27 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             foreach (var go in records)
             {
                 UnityEngine.GameObject.Destroy(go);
+            }
+        }
+
+        /// <summary>
+        /// 计算锚点值
+        /// </summary>
+        /// <param name="_positiveAxisValue">正方向轴上的边距值</param>
+        /// <param name="_negativeAxisValue">负方向上轴的边距值</param>
+        /// <returns></returns>
+        private float calculateAnchoredValue(int _positiveAxisMargin, int _negativeAxisMargin)
+        {
+            // 如果正方向轴上的边距值大于负方向轴上的边距值，则锚点中心位于负方向轴上
+            if (_positiveAxisMargin > _negativeAxisMargin)
+            {
+                return -(_positiveAxisMargin - _negativeAxisMargin) / 2.0f;
+
+            }
+            // 如果正方向轴上的边距值大于负方向轴上的边距值，则锚点中心位于负方向轴上
+            else
+            {
+                return (_negativeAxisMargin - _positiveAxisMargin) / 2.0f;
             }
         }
 
