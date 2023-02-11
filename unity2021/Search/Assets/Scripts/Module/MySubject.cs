@@ -15,7 +15,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         /// data["style"] = "default";
         /// data["uiSlot"] = a instance of UnityEngine.GameObejct;
         /// data["worldSlot"] = a instance of UnityEngine.GameObejct;
-        /// data["contents"] = a instance of Dictionary<uri:strin, alias:string>;
         /// model.Publish(/XTC/Search/Inlay, data);
         /// </example>
         public const string Inlay = "/XTC/Search/Inlay";
@@ -26,7 +25,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         /// <example>
         /// var data = new Dictionary<string, object>();
         /// data["uid"] = "default";
-        /// data["contents"] = a instance of Dictionary<uri:strin, alias:string>;
         /// model.Publish(/XTC/Search/Refresh, data);
         /// </example>
         public const string Refresh = "/XTC/Search/Refresh";

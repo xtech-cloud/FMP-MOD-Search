@@ -10,6 +10,7 @@ using XTC.FMP.MOD.Search.LIB.MVCS;
 using System;
 using System.Linq;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace XTC.FMP.MOD.Search.LIB.Unity
 {
@@ -28,8 +29,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         }
 
         private UiReference uiReference_ = new UiReference();
-        private List<DummyModel.Record> records_ = new List<DummyModel.Record>();
-        private ContentReader contentRender_ = null;
 
         public MyInstance(string _uid, string _style, MyConfig _config, MyCatalog _catalog, LibMVCS.Logger _logger, Dictionary<string, LibMVCS.Any> _settings, MyEntryBase _entry, MonoBehaviour _mono, GameObject _rootAttachments)
             : base(_uid, _style, _config, _catalog, _logger, _settings, _entry, _mono, _rootAttachments)
@@ -140,8 +139,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         /// </remarks>
         public void HandleOpened(string _source, string _uri)
         {
-            contentRender_ = new ContentReader(contentObjectsPool);
-            contentRender_.AssetRootPath = settings_["path.assets"].AsString();
             rootUI.gameObject.SetActive(true);
             rootWorld.gameObject.SetActive(true);
             clearResults();
@@ -154,23 +151,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         {
             rootUI.gameObject.SetActive(false);
             rootWorld.gameObject.SetActive(false);
-            contentRender_ = null;
-        }
-
-        /// <summary>
-        /// 绑定内容，同时生成首字母
-        /// </summary>
-        /// <param name="_contents">内容列表，key是uri，value是alias</param>
-        public void BindContents(Dictionary<string, string> _contents)
-        {
-            foreach (var pair in _contents)
-            {
-                var record = new DummyModel.Record();
-                record.uri = pair.Key;
-                record.alias = pair.Value;
-                record.initials = NPinyin.Pinyin.GetInitials(pair.Value);
-                records_.Add(record);
-            }
         }
 
         public void CleanResults()
@@ -188,31 +168,38 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 return;
             }
 
-            IEnumerable<DummyModel.Record> recordsItr = from r in records_ where r.initials.ToLower().Contains(_key.ToLower()) select r;
-            var records = recordsItr.ToList();
-            for (int i = 0; i < style_.record.capacity && i < records.Count; i++)
+            var initialsS = preloadsRepetition["ContentInitialsS"] as Dictionary<string, string>;
+
+            IEnumerable<KeyValuePair<string, string>> pairItor = from r in initialsS where r.Value.ToLower().Contains(_key.ToLower()) select r;
+            var pairS = pairItor.ToList();
+            for (int i = 0; i < style_.record.capacity && i < pairS.Count; i++)
             {
-                var record = records[i];
-                var clone = GameObject.Instantiate(uiReference_.recordTemplate, uiReference_.recordTemplate.parent);
-                clone.transform.Find("Text").GetComponent<Text>().text = record.alias;
-                clone.gameObject.SetActive(true);
-                contentRender_.ContentUri = record.uri;
-                contentRender_.LoadTexture("icon.png", (_texture) =>
+                var uri = pairS[i].Key;
+                // 从预加载中获取meta的json
+                var metaKey = uri + "/meta.json";
+                object metaValue;
+                if (preloadsRepetition.TryGetValue(metaKey, out metaValue))
                 {
-                    if (null == clone)
-                        return;
-                    clone.transform.Find("icon").GetComponent<RawImage>().texture = _texture;
-                }, () =>
-                {
+                    var contentSchema = JsonConvert.DeserializeObject<ContentMetaSchema>(metaValue as string);
+                    var clone = GameObject.Instantiate(uiReference_.recordTemplate, uiReference_.recordTemplate.parent);
+                    clone.transform.Find("Text").GetComponent<Text>().text = contentSchema.alias;
+                    clone.gameObject.SetActive(true);
+                    clone.GetComponent<Button>().onClick.AddListener(() =>
+                    {
+                        Dictionary<string, object> variableS = new Dictionary<string, object>();
+                        variableS["{{uid}}"] = uid;
+                        publishSubjects(style_.activateSubjects, variableS);
+                    });
 
-                });
+                    // 从预加载中获取icon图片
+                    var iconKey = uri + "/icon.png";
+                    object iconValue;
+                    if (preloadsRepetition.TryGetValue(iconKey, out iconValue))
+                    {
+                        clone.transform.Find("icon").GetComponent<RawImage>().texture = iconValue as Texture2D;
+                    }
+                }
 
-                clone.GetComponent<Button>().onClick.AddListener(() =>
-                {
-                    Dictionary<string, object> variableS = new Dictionary<string, object>();
-                    variableS["{{uid}}"] = uid;
-                    publishSubjects(style_.activateSubjects, variableS);
-                });
             }
         }
 

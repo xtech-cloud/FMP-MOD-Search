@@ -33,7 +33,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             string style = "";
             GameObject uiSlot = null;
             GameObject worldSlot = null;
-            Dictionary<string, string> contents = null;
             try
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
@@ -41,7 +40,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 style = (string)data["style"];
                 uiSlot = data["uiSlot"] as GameObject;
                 worldSlot = data["worldSlot"] as GameObject;
-                contents = data["contents"] as Dictionary<string, string>;
             }
             catch (Exception ex)
             {
@@ -66,7 +64,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 _instance.rootWorld.transform.localScale = Vector3.one;
                 _instance.rootWorld.SetActive(true);
 
-                _instance.BindContents(contents);
                 runtime.OpenInstanceAsync(uid, style, "", 0);
             });
 
@@ -77,12 +74,10 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             getLogger().Debug("handle refresh of {0}", MyEntryBase.ModuleName);
 
             string uid = "";
-            Dictionary<string, string> contents = null;
             try
             {
                 Dictionary<string, object> data = _data as Dictionary<string, object>;
                 uid = (string)data["uid"];
-                contents = data["contents"] as Dictionary<string, string>;
             }
             catch (Exception ex)
             {
@@ -97,7 +92,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 return;
             }
             instance.CleanResults();
-            instance.BindContents(contents);
         }
 
         private void handleClean(LibMVCS.Model.Status _status, object _data)

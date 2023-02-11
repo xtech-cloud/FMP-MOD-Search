@@ -9,14 +9,6 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
     /// </summary>
     public class DummyModel : DummyModelBase
     {
-
-        public class Record
-        {
-            public string initials;
-            public string uri;
-            public string alias;
-        }
-
         public class DummyStatus : DummyStatusBase
         {
         }
