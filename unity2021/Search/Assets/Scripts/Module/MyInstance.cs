@@ -222,6 +222,8 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                     {
                         Dictionary<string, object> variableS = new Dictionary<string, object>();
                         variableS["{{uid}}"] = uid;
+                        variableS["{{bundle_uuid}}"] = contentSchema.foreign_bundle_uuid;
+                        variableS["{{content_uuid}}"] = contentSchema.Uuid;
                         publishSubjects(style_.activateSubjects, variableS);
                     });
 

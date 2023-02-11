@@ -61,6 +61,9 @@
         <Subject message="/XTC/Search/Clean">
           <Parameters>
             <Parameter key="uid" value="{{uid}}" type="string"/>
+            <Parameter key="source" value="assloud://" type="string"/>
+            <Parameter key="bundle_uuid" value="{{bundle_uuid}}" type="string"/>
+            <Parameter key="content_uuid" value="{{content_uuid}}" type="string"/>
           </Parameters>
         </Subject>
       </ActivateSubjects>
