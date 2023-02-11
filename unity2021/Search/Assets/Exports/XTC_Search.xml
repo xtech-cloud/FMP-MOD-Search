@@ -19,24 +19,42 @@
       primaryColor: 主颜色，RGBA的HEX值
       Background.visible: 背景是否可见
       Background.color: 背景的颜色，RGBA的HEX值
+      Input.marginTop: 输入框的顶部边距
+      Input.width: 输入框的宽度
+      Input.height: 输入框的高度
+      Input.iconSize: 输入框的搜索图标的尺寸
+      Input.fontSize: 输入框的字体尺寸
       Keyboard.keyImage: 按键图片，64x64
+      Keyboard.width: 键盘的宽度
+      Keyboard.height: 键盘的高度
+      Keyboard.keySize: 键盘的按键的尺寸
+      Keyboard.fontSize: 键盘的按键的字体尺寸
+      Keyboard.spacingH: 键盘的按键的水平间隔
+      Keyboard.spacingV: 键盘的按键的垂直间隔
+      Result.Margin: 搜索结果框的边距
+      Result.spacingH: 搜索结果的水平间隔
+      Result.spacingV: 搜索结果的垂直间隔
       Record.color: 搜索结果记录的颜色
       Record.capacity: 搜索结果的最大显示数量
       Record.iconVisible: 搜索结果的图标是否可见，（当前版本暂未实现）
       Record.iconImage: 搜索结果的图标的默认图片
+      Record.iconSize: 搜索结果的图标的尺寸
+      Record.iconMarginLeft: 搜索结果的图标的左边距
       Record.width: 搜索结果的宽度
       Record.height: 搜索结果的高度
+      Record.fontSize: 搜索结果的字体尺寸
+      Record.TextMargin: 搜索结果的文字的边距
       ActivateSubjects: 搜索结果点击后发布的消息列表
     -->
   <Styles>
     <Style name="default" primaryColor="#49DDE4FF">
       <Background visible="true" color="#282828FF"/>
       <Input marginTop="24" width="500" height="36" iconSize="28" fontSize="22"/>
-      <Keyboard keyImage="key_default.png" width="580" height="140" keySize="32" fontSize="14"/>
-      <Result>
+      <Keyboard keyImage="key_default.png" width="580" height="140" keySize="32" fontSize="14" spacingH="12" spacingV="12"/>
+      <Result spacingH="16" spacingV="12">
         <Margin top="80" bottom="140" left="44" right="44"/>
       </Result>
-      <Record color="#1F1F1FFF" capacity="30" iconVisible="true" iconImage="icon-default.png" iconSize="36" iconMarginLeft="12" width="226" height="48" fontSize="16">
+      <Record color="#1F1F1FFF" capacity="30" iconVisible="true" iconImage="icon-default.png" iconSize="36" iconMarginLeft="12" width="234" height="48" fontSize="16">
         <TextMargin top="1" bottom="0" left="58" right="10"/>
       </Record>
       <ActivateSubjects>

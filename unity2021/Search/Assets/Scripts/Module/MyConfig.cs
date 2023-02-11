@@ -46,6 +46,10 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             public int width { get; set; } = 1024;
             [XmlAttribute("height")]
             public int height { get; set; } = 280;
+            [XmlAttribute("spacingH")]
+            public int spacingH { get; set; } = 12;
+            [XmlAttribute("spacingV")]
+            public int spacingV { get; set; } = 12;
         }
 
         public class Background
@@ -84,6 +88,10 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
         {
             [XmlElement("Margin")]
             public Margin margin { get; set; } = new Margin();
+            [XmlAttribute("spacingH")]
+            public int spacingH { get; set; } = 40;
+            [XmlAttribute("spacingV")]
+            public int spacingV { get; set; } = 20;
         }
 
         public class Style

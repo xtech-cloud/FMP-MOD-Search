@@ -81,9 +81,16 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 {
                     key.transform.Find("Text").GetComponent<Text>().fontSize = style_.keyboard.fontSize;
                 }
-                rootUI.transform.Find("keyboard/line1").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
-                rootUI.transform.Find("keyboard/line2").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
-                rootUI.transform.Find("keyboard/line3").GetComponent<GridLayoutGroup>().cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
+                Action<string> updateLayout = (_name) =>
+                {
+                    var gridLayoutGroup = rootUI.transform.Find(_name).GetComponent<GridLayoutGroup>();
+                    gridLayoutGroup.cellSize = new Vector2(style_.keyboard.keySize, style_.keyboard.keySize);
+                    gridLayoutGroup.spacing = new Vector2(style_.keyboard.spacingH, 0);
+                };
+                updateLayout("keyboard/line1");
+                updateLayout("keyboard/line2");
+                updateLayout("keyboard/line3");
+                rtKeyboard.GetComponent<VerticalLayoutGroup>().spacing = style_.keyboard.spacingV;
                 if (!string.IsNullOrEmpty(style_.keyboard.keyImage))
                 {
                     loadTextureFromTheme(style_.keyboard.keyImage, (_texture) =>
@@ -106,6 +113,7 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
 
                 var layout = rootUI.transform.Find("svRecords/Viewport/Content").GetComponent<GridLayoutGroup>();
                 layout.cellSize = new Vector2(style_.record.width, style_.record.height);
+                layout.spacing = new Vector2(style_.result.spacingH, style_.result.spacingV);
                 uiReference_.recordTemplate = rootUI.transform.Find("svRecords/Viewport/Content/record").GetComponent<RectTransform>();
                 uiReference_.recordTemplate.gameObject.SetActive(false);
                 var rtIcon = uiReference_.recordTemplate.Find("icon").GetComponent<RectTransform>();
