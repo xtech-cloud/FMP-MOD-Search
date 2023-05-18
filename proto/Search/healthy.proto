@@ -1,6 +1,7 @@
 
 syntax = "proto3";
 import "shared.proto";
+import "google/api/annotations.proto";
 
 option csharp_namespace = "XTC.FMP.MOD.Search.LIB.Proto";
 package xtc.fmp.search;
@@ -8,7 +9,12 @@ package xtc.fmp.search;
 // 健康
 service Healthy {
     // 回显
-    rpc Echo(HealthyEchoRequest) returns (HealthyEchoResponse) {}
+    rpc Echo(HealthyEchoRequest) returns (HealthyEchoResponse) {
+        option (google.api.http) = {
+            post: "/v1/xtc/search/healthy/echo",
+            body: "*",
+        };
+    }
 }
 
 // 回显的请求
