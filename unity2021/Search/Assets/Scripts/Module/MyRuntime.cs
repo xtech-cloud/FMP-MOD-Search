@@ -121,24 +121,12 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             {
                 //meta.json
                 _sequence.Dial();
-                //cover.png
-                //_sequence.Dial();
                 //icon.png
                 _sequence.Dial();
             }
             foreach (var contentUri in preloadContentUriS_)
             {
-                /*
-                preloadContentCover(contentUri, () =>
-                {
-                    _sequence.Tick();
-                }, () =>
-                {
-                    _sequence.Tick();
-                });
-                */
-
-                preloadContentIcon(contentUri, () =>
+                preloadCellPicture(contentUri, () =>
                 {
                     _sequence.Tick();
                 }, () =>
@@ -164,26 +152,14 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             preloadObjectsPool_.LoadText(filefullpath, null, _onFinish, _onError);
         }
 
-        protected void preloadContentCover(string _contentUri, Action _onFinish, Action _onError)
+        protected void preloadCellPicture (string _contentUri, Action _onFinish, Action _onError)
         {
             string assetRootPath = settings_["path.assets"].AsString();
             string dir = Path.Combine(assetRootPath, _contentUri);
-            string filefullpath = Path.Combine(dir, "cover.png");
+            string filefullpath = Path.Combine(dir, config_.preloader.cell.picture);
             preloadObjectsPool_.LoadTexture(filefullpath, null, (_texture) =>
             {
-                preloads_[_contentUri + "/cover.png"] = _texture;
-                _onFinish();
-            }, _onError);
-        }
-
-        protected void preloadContentIcon(string _contentUri, Action _onFinish, Action _onError)
-        {
-            string assetRootPath = settings_["path.assets"].AsString();
-            string dir = Path.Combine(assetRootPath, _contentUri);
-            string filefullpath = Path.Combine(dir, "icon.png");
-            preloadObjectsPool_.LoadTexture(filefullpath, null, (_texture) =>
-            {
-                preloads_[_contentUri + "/icon.png"] = _texture;
+                preloads_[_contentUri + $"/{config_.preloader.cell.picture}"] = _texture;
                 _onFinish();
             }, _onError);
         }

@@ -115,9 +115,24 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
             public Subject[] activateSubjects { get; set; } = new Subject[0];
         }
 
+        public class Preloader
+        {
+            public class Cell
+            {
+                [XmlAttribute("picture")]
+                public string picture { get; set; } = "icon.png";
+            }
+
+            [XmlElement("Cell")]
+            public Cell cell { get; set; } = new Cell();
+        }
 
         [XmlArray("Styles"), XmlArrayItem("Style")]
         public Style[] styles { get; set; } = new Style[0];
+
+        [XmlElement("Preloader")]
+        public Preloader preloader { get; set; } = new Preloader();
+
     }
 }
 

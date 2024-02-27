@@ -128,7 +128,8 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                 uiReference_.recordTemplate.GetComponent<Image>().color = color;
                 loadTextureFromTheme(style_.record.iconImage, (_texture) =>
                 {
-                    uiReference_.recordTemplate.Find("icon").GetComponent<RawImage>().texture = _texture;
+                    var sprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0.5f, 0.5f));
+                    uiReference_.recordTemplate.Find("icon").GetComponent<Image>().sprite = sprite;
                 }, () => { });
             }
 
@@ -228,11 +229,13 @@ namespace XTC.FMP.MOD.Search.LIB.Unity
                     });
 
                     // 从预加载中获取icon图片
-                    var iconKey = uri + "/icon.png";
+                    var iconKey = uri + $"/{config_.preloader.cell.picture}";
                     object iconValue;
                     if (preloadsRepetition.TryGetValue(iconKey, out iconValue))
                     {
-                        clone.transform.Find("icon").GetComponent<RawImage>().texture = iconValue as Texture2D;
+                        var texture = iconValue as Texture2D;
+                        var sprite = Sprite.Create(iconValue as Texture2D, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                        clone.transform.Find("icon").GetComponent<Image>().sprite = sprite;
                     }
                 }
 
